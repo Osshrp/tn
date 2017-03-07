@@ -22,7 +22,12 @@ class RightTriangle
         puts "и равнобедренным"
       end
     else
-      puts "Треугальник не является прямоугольным"
+      puts "Треугольник не является прямоугольным"
+      if @sides.uniq.length == 1
+        puts "но является равносторонним"
+      elsif @sides.uniq.length == 2
+        puts "но является равнобедренным"
+      end
     end
   end
 end
