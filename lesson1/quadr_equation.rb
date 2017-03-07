@@ -1,7 +1,7 @@
 def calc_roots(arr, discriminant)
-  val = Math.sqrt(discriminant)
-  @x1 = (-arr[1] + val)/2 * arr[0]
-  @x2 = (-arr[1] - val)/2 * arr[0]
+  discriminant_sqrt = Math.sqrt(discriminant)
+  @x1 = (-arr[1] + discriminant_sqrt)/2 * arr[0]
+  @x2 = (-arr[1] - discriminant_sqrt)/2 * arr[0]
 end
 
 def output(string, discriminant)
