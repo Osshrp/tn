@@ -20,13 +20,12 @@ discriminant = arr[1]**2 - 4 * arr[0] * arr[2]
 
 if discriminant < 0
   string = "Уравнение не имеет корней"
-  output(string, discriminant)
 elsif discriminant == 0
   calc_roots(arr, discriminant)
-  root = "X1 = #{@x1}"
-  output(root, discriminant)
+  string = "X1 = #{@x1}"
 else
   calc_roots(arr, discriminant)
-  roots = "X1 = #{@x1}, X2 = #{@x2}"
-  output(roots, discriminant)
+  string = "X1 = #{@x1}, X2 = #{@x2}"
 end
+
+output(string, discriminant)
