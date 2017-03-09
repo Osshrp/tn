@@ -1,5 +1,5 @@
-goods = {}
 sum = 0
+goods = {}
 loop do
   puts 'Введите название товара или "стоп" если хотите закончить ввод'
   name = gets.chomp
