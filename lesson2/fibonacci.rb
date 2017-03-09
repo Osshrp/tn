@@ -1,2 +1,8 @@
-array = 100.times.each_with_object([0,1]) { |num, arr| arr << arr[-2] + arr[-1] }
-puts array
+arr = [0, 1]
+i = 1
+while arr[i] < 100
+  arr << arr[-2] + arr[-1]
+  i += 1
+end
+arr.pop
+puts arr
