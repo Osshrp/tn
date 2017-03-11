@@ -16,7 +16,7 @@ module RailWay
     end
 
     def trains_list(type=nil)
-      type ? (@trains.select &:type) : @trains
+      type ? @trains.select(&:type) : @trains
     end
   end
 end
