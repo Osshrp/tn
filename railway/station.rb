@@ -15,14 +15,8 @@ module RailWay
       @trains.delete(train)
     end
 
-    def trains_list(type={})
-      if type.empty?
-        @trains.each { |train|  puts "Поезд: #{train.number}, тип: #{train.type[:type]}" }
-      else
-        @trains.each do |train|
-          puts "Поезд: #{train.number}, тип: #{train.type[:type]}" if type[type] == train.type[:type]
-        end
-      end
+    def trains_list(type=nil)
+      type.nil? ? @trains : @trains.select { |train| train.type == type }
     end
   end
 end
