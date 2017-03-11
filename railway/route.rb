@@ -2,8 +2,8 @@ module RailWay
   class Route
     attr_reader :stations
 
-    def initialize(stations=[first_station, last_station])
-      @stations = stations
+    def initialize(first_station, last_station)
+      @stations = [first_stations, last_station]
     end
 
     def add_station(station)

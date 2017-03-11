@@ -2,7 +2,7 @@ require_relative 'station'
 require_relative 'train'
 require_relative 'route'
 
-route = RailWay::Route.new([RailWay::Station.new("Moscow"),RailWay::Station.new("Piter")])
+route = RailWay::Route.new(RailWay::Station.new("Moscow"),RailWay::Station.new("Piter"))
 route.add_station(RailWay::Station.new("Петушки"))
 train = RailWay::Train.new("23", 10, :passenger)
 train.take_route(route)
