@@ -1,6 +1,6 @@
 module RailWay
   class Station
-    attr_reader :name
+    attr_reader :name, :trains
 
     def initialize(name)
       @name = name

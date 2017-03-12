@@ -1,14 +1,18 @@
+# метод arrive_to_station protected так как он внутренний метод и не ему не
+# обязательно быть публичным
+
 module RailWay
   class Train
     attr_accessor :speed
-    attr_reader :wagons_quantity, :type, :number, :route
+    attr_reader :number, :route, :wagons
 
-    def initialize(number, wagons_quantity, type)
+    def initialize(number)
       @speed = 0
       @number = number
-      @type = type
-      @wagons_quantity = wagons_quantity
+      # @type = type
+      # @wagons_quantity = wagons_quantity
       @stations_index = 0
+      @wagons = []
     end
 
     def take_route(route)
@@ -34,20 +38,14 @@ module RailWay
 
     def attach_wagon
       return unless self.speed.zero?
-
       puts "Attaching wagon"
-      @wagons_quantity += 1
+      # @wagons_quantity += 1
     end
 
     def detach_wagon
       return unless self.speed.zero?
-
       puts "Detaching wagon"
-      @wagons_quantity -= 1
-    end
-
-    def arrive_to_station
-      route.stations[@stations_index].arrive(self)
+      # @wagons_quantity -= 1
     end
 
     def current_station
@@ -70,6 +68,12 @@ module RailWay
       else
         route.stations[@stations_index - 1].name
       end
+    end
+
+    protected
+
+    def arrive_to_station
+      route.stations[@stations_index].arrive(self)
     end
   end
 end
