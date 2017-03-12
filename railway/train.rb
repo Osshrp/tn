@@ -8,7 +8,7 @@ module RailWay
       @number = number
       @type = type
       @wagons_quantity = wagons_quantity
-      @stations_counter = 0
+      @stations_index = 0
     end
 
     def take_route(route)
@@ -22,8 +22,8 @@ module RailWay
 
     def go
       self.speed = 60
-      route.stations[@stations_counter].departure(self)
-      @stations_counter += 1
+      route.stations[@stations_index].departure(self)
+      @stations_index += 1
       arrive_to_station
       stop
     end
@@ -47,28 +47,28 @@ module RailWay
     end
 
     def arrive_to_station
-      route.stations[@stations_counter].arrive(self)
+      route.stations[@stations_index].arrive(self)
     end
 
     def current_station
-      route.stations[@stations_counter]
+      route.stations[@stations_index]
     end
 
     def next_station
-      if @stations_counter + 1 == self.route.stations.size
+      if @stations_index + 1 == self.route.stations.size
         puts "Это конечная станция"
-        route.stations[@stations_counter].name
+        route.stations[@stations_index].name
       else
-        route.stations[@stations_counter + 1].name
+        route.stations[@stations_index + 1].name
       end
     end
 
     def previous_station
-      if @stations_counter == 0
+      if @stations_index == 0
         puts "Это первая станция маршрута"
-        route.stations[@stations_counter].name
+        route.stations[@stations_index].name
       else
-        route.stations[@stations_counter - 1].name
+        route.stations[@stations_index - 1].name
       end
     end
   end
