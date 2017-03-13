@@ -39,7 +39,7 @@ module RailWay
     # end
 
     def attach_wagon(wagon)
-      unless self.speed.zero? || type == wagon.type
+      if self.speed > 0 || type != wagon.type
         return
       end
       puts "Attaching wagon"
