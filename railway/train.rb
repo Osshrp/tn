@@ -33,16 +33,23 @@ module RailWay
       self.speed = 0
     end
 
-    def attach_wagon
-      return unless self.speed.zero?
+    # def attach_wagon(wagon)
+    #   return unless self.speed.zero?
+    #   puts "Attaching wagon"
+    # end
+
+    def attach_wagon(wagon)
+      unless self.speed.zero? || type == wagon.type
+        return
+      end
       puts "Attaching wagon"
-      # @wagons_quantity += 1
+      wagons << wagon
     end
 
     def detach_wagon
       return unless self.speed.zero?
       puts "Detaching wagon"
-      # @wagons_quantity -= 1
+      @wagons.pop
     end
 
     def current_station
@@ -68,7 +75,6 @@ module RailWay
     end
 
     # метод arrive_to_station protected так как он должен неследоваться
-
 
     protected
 

@@ -6,15 +6,5 @@ module RailWay
     def type
       :passenger
     end
-
-    def attach_wagon
-      super
-      wagons << PassengerWagon.new
-    end
-
-    def detach_wagon
-      super
-      wagons.pop
-    end
   end
 end
