@@ -81,7 +81,6 @@ def trains_on_station
   select_station(get_station_name)[0].trains_list.each do |train|
     puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
   end
-  # p select_station(get_station_name)[0].trains_list
 end
 
 @stations = []

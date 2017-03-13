@@ -1,6 +1,3 @@
-# метод arrive_to_station protected так как он внутренний метод и не ему не
-# обязательно быть публичным
-
 module RailWay
   class Train
     attr_accessor :speed
@@ -69,6 +66,9 @@ module RailWay
         route.stations[@stations_index - 1].name
       end
     end
+
+    # метод arrive_to_station protected так как он должен неследоваться
+
 
     protected
 
