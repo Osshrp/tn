@@ -9,10 +9,11 @@ module RailWay
     attr_accessor :speed
     attr_reader :number, :route, :wagons
 
-    @@trains = []
+    @@trains = {}
 
     def self.find(number)
-      @@trains.select { |train| train.number == number }.first
+      # @@trains.select { |train| train.number == number }.first
+      @@trains[number]
     end
 
     def initialize(number)
@@ -20,7 +21,7 @@ module RailWay
       @number = number
       @stations_index = 0
       @wagons = []
-      @@trains << self
+      @@trains[number] = self
       register_instance
     end
 
