@@ -1,5 +1,8 @@
 module RailWay
   class Station
+
+    STATION_NAME_FORMAT = /^[A-Za-z]{3,}|^[А-Яа-я]{3,}$/
+
     attr_reader :name
 
     @@all = 0
@@ -10,6 +13,7 @@ module RailWay
 
     def initialize(name)
       @name = name
+      validate!
       @trains = []
       @@all += 1
     end
@@ -24,6 +28,19 @@ module RailWay
 
     def trains_list(type=nil)
       type ? @trains.select(&:type) : @trains
+    end
+
+    def valid?
+      validate!
+    rescue
+      false
+    end
+
+    private
+
+    def validate!
+      raise "Station name has invalid format" if name !~ STATION_NAME_FORMAT
+      true
     end
   end
 end

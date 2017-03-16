@@ -5,6 +5,10 @@ require_relative 'passenger_train'
 
 module RailWay
   class Main
+
+    STATION_NAME_FORMAT = /^[A-Za-z]{3,}|^[А-Яа-я]{3,}$/
+    TRAIN_NUMBER_FORMAT = /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/
+
     def initialize
       @stations = []
       @trains = []
@@ -44,19 +48,26 @@ module RailWay
     def create_station
       puts "Введите название станции"
       station_name = gets.chomp
+      validate!(:station, station_name)
       @stations << RailWay::Station.new(station_name)
+    rescue StandardError => e
+      puts "#{e.message}"
+      create_station
     end
 
     def create_train
       puts "Введите номер поезда"
       train_number = gets.chomp
-
+      validate!(:train, train_number)
       train_type = { 1 => :passenger, 2 => :cargo }
       puts "Выберите тип поезда"
       puts "1: пассажирский"
       puts "2: грузовой"
       input = gets.chomp.to_i
       new_train(train_type[input], train_number) if train_type.has_key?(input)
+    rescue StandardError => e
+      puts "#{e.message}"
+      create_train
     end
 
     def attach_wagon
@@ -118,13 +129,32 @@ module RailWay
     def get_train_number
       trains_list
       puts "Введите номер поезда"
-      gets.chomp
+      train_number = gets.chomp
+      raise "Такого поезда нет" unless select_train(train_number)[0]
+      train_number
+     rescue StandardError => e
+       puts "#{e.message}"
+       get_train_number
     end
 
     def get_station_name
       stations_list
       puts "Введите название станции"
-      gets.chomp
+      name = gets.chomp
+      raise "Такой станции нет" unless select_station(name)[0]
+      name
+    rescue
+      StandardError => e
+        puts "#{e.message}"
+        get_station_name
+    end
+
+    def validate!(type, arg)
+      if type == :station
+        raise "Неверный формат названия сатнции" if arg !~ STATION_NAME_FORMAT
+      else
+        raise "Неверный формат номера поезда" if arg !~ TRAIN_NUMBER_FORMAT
+      end
     end
   end
 end

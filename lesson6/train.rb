@@ -6,6 +6,8 @@ module RailWay
     include Manufacturer
     include InstanceCounter
 
+    TRAIN_NUMBER_FORMAT = /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/
+
     attr_accessor :speed
     attr_reader :number, :route, :wagons
 
@@ -19,6 +21,7 @@ module RailWay
     def initialize(number)
       @speed = 0
       @number = number
+      validate!
       @stations_index = 0
       @wagons = []
       @@trains[number] = self
@@ -47,16 +50,13 @@ module RailWay
     end
 
     def attach_wagon(wagon)
-      unless self.speed.zero? || type == wagon.type
-        return
+      if self.speed.zero? || type == wagon.type
+        wagons << wagon
       end
-      puts "Attaching wagon"
-      wagons << wagon
     end
 
     def detach_wagon
       return unless self.speed.zero?
-      puts "Detaching wagon"
       @wagons.pop
     end
 
@@ -66,7 +66,6 @@ module RailWay
 
     def next_station
       if @stations_index + 1 == self.route.stations.size
-        puts "Это конечная станция"
         route.stations[@stations_index].name
       else
         route.stations[@stations_index + 1].name
@@ -75,11 +74,16 @@ module RailWay
 
     def previous_station
       if @stations_index == 0
-        puts "Это первая станция маршрута"
         route.stations[@stations_index].name
       else
         route.stations[@stations_index - 1].name
       end
+    end
+
+    def valid?
+      validate!
+    rescue
+      false
     end
 
     # метод arrive_to_station protected так как он должен неследоваться
@@ -88,6 +92,11 @@ module RailWay
 
     def arrive_to_station
       route.stations[@stations_index].arrive(self)
+    end
+
+    def validate!
+      raise "Number has invalid format" if number !~ TRAIN_NUMBER_FORMAT
+      true
     end
   end
 end
