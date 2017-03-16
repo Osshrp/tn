@@ -1,13 +1,13 @@
 module RailWay
   class Route
 
-    STATION_NAME_FORMAT = /^[A-Za-z]{3,}|^[А-Яа-я]{3,}$/
+    STATION_CLASS = "RailWay::Station"
 
     attr_reader :stations
 
     def initialize(first_station, last_station)
-      @stations = [first_stations, last_station]
-      validat!
+      @stations = [first_station, last_station]
+      validate!
     end
 
     def add_station(station)
@@ -27,8 +27,10 @@ module RailWay
     private
 
     def validate!
-      if @stations.first !~ STATION_NAME_FORMAT && @stations.last !~ STATION_NAME_FORMAT
-        raise "Station name has invalid format"
+      if @stations.first.class.to_s != STATION_CLASS
+        raise "#{@stations.first} is not an object of class RailWay::Station"
+      elsif @stations.last.class.to_s != STATION_CLASS
+        raise "#{@stations.last} is not an object of class RailWay::Station"
       end
       true
     end
