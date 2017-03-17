@@ -51,7 +51,7 @@ module RailWay
 
     def attach_wagon(wagon)
       if self.speed.zero? || type == wagon.type
-        wagons << wagon
+        @wagons << wagon
       end
     end
 
@@ -78,6 +78,10 @@ module RailWay
       else
         route.stations[@stations_index - 1].name
       end
+    end
+
+    def each_wagon(&block)
+      @wagons.each { |wagon| block.call(wagon) }
     end
 
     def valid?

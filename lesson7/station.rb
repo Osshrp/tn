@@ -30,6 +30,10 @@ module RailWay
       type ? @trains.select(&:type) : @trains
     end
 
+    def each_train(&block)
+      @trains.each { |train| block.call(train) }
+    end
+
     def valid?
       validate!
     rescue

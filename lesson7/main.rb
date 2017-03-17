@@ -21,18 +21,22 @@ module RailWay
                     6 => :trains_on_station,
                     8 => :stations_list,
                     9 => :trains_list,
+                    10 => :wagons_list,
+                    11 => :book_place,
                     0 => :exit
                   }
 
       loop do
-        puts "1: создать станцию"
-        puts "2: создать поезд"
-        puts "3: прицепить вагон к поезду"
-        puts "4: отцепить выган от поезда"
-        puts "5: поместить поезд на станцию"
-        puts "6: список поездов на станции"
-        puts "8: список станций"
-        puts "9: список поездов"
+        puts "1:  создать станцию"
+        puts "2:  создать поезд"
+        puts "3:  прицепить вагон к поезду"
+        puts "4:  отцепить выган от поезда"
+        puts "5:  поместить поезд на станцию"
+        puts "6:  список поездов на станции"
+        puts "8:  список станций"
+        puts "9:  список поездов"
+        puts "10: список вагонов поезда"
+        puts "11: забронировать место"
         puts "0: выход"
 
         input = gets.chomp.to_i
@@ -68,9 +72,13 @@ module RailWay
     def attach_wagon
       train = select_train(get_train_number)[0]
       if train.type == :cargo
-        wagon = RailWay::CargoWagon.new
+        puts "Введите объем вагона(60 - 256 м3):"
+        volume = gets chomp.to_f
+        wagon = RailWay::CargoWagon.new(volume)
       else
-        wagon = RailWay::PassengerWagon.new
+        puts "Введите вместимость вагона(40 - 80 мест):"
+        seats = gets chomp.to_f
+        wagon = RailWay::PassengerWagon.new(seats)
       end
       train.attach_wagon(wagon)
     end
@@ -86,7 +94,10 @@ module RailWay
     end
 
     def trains_on_station
-      select_station(get_station_name)[0].trains_list.each do |train|
+      # select_station(get_station_name)[0].trains_list.each do |train|
+      #   puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
+      # end
+      select_station(get_station_name)[0].each_train do |train|
         puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
       end
     end
@@ -98,6 +109,12 @@ module RailWay
     def trains_list
       @trains.each do |train|
         puts "Поезд №: #{train.number}, тип: #{train.type}, количество вагонов: #{train.wagons.size}"
+      end
+    end
+
+    def wagons_list
+      select_train(get_train_number)[0].each_wagon do |wagon|
+        puts "№, Тип: #{wagon.type}"
       end
     end
 
