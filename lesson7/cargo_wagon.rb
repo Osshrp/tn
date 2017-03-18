@@ -5,7 +5,7 @@ module RailWay
 
     attr_reader :occupied_volume
 
-    def initialize(volume = 100)
+    def initialize(volume)
       @volume = volume
       validate!
       @occupied_volume = 0

@@ -3,10 +3,12 @@ require_relative 'wagon'
 module RailWay
   class PassengerWagon < Wagon
 
-    def initialize(seats=40)
+    attr_reader :occupied_seats
+
+    def initialize(seats)
       @seats = seats
       validate!
-      @occupied_seat = 0
+      @occupied_seats = 0
     end
 
     def type
@@ -18,7 +20,7 @@ module RailWay
     end
 
     def free_seats
-      @seats - @occupied_seats
+       @seats - @occupied_seats
     end
 
     def valid?

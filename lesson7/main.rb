@@ -73,11 +73,11 @@ module RailWay
       train = select_train(get_train_number)[0]
       if train.type == :cargo
         puts "Введите объем вагона(60 - 256 м3):"
-        volume = gets chomp.to_f
+        volume = gets.chomp.to_f
         wagon = RailWay::CargoWagon.new(volume)
       else
         puts "Введите вместимость вагона(40 - 80 мест):"
-        seats = gets chomp.to_f
+        seats = gets.chomp.to_i
         wagon = RailWay::PassengerWagon.new(seats)
       end
       train.attach_wagon(wagon)
@@ -98,7 +98,12 @@ module RailWay
       #   puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
       # end
       select_station(get_station_name)[0].each_train do |train|
-        puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
+        string = <<~END
+        Номер поезда: #{train.number},
+         тип поезда: #{train.type},
+         количество вагонов: #{train.wagons.size}
+        END
+        puts string
       end
     end
 
@@ -114,7 +119,23 @@ module RailWay
 
     def wagons_list
       select_train(get_train_number)[0].each_wagon do |wagon|
-        puts "№, Тип: #{wagon.type}"
+        i = 1
+        if wagon.type == :cargo
+          string = <<~END.gsub(/\n/,'')
+          №#{i}, Тип: #{wagon.type},
+           свободный объем: #{wagon.free_volume},
+           занятый объем: #{wagon.occupied_volume}
+          END
+          puts string
+        else
+          string = <<~END.gsub(/\n/,'')
+          №#{i}, Тип: #{wagon.type},
+           свободные места: #{wagon.free_seats},
+           занятые места: #{wagon.occupied_seats}
+          END
+          puts string
+        end
+        i += 1
       end
     end
 
