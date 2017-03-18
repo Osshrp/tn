@@ -98,7 +98,7 @@ module RailWay
       #   puts "Номер поезда: #{train.number}, тип поезда: #{train.type}"
       # end
       select_station(get_station_name)[0].each_train do |train|
-        string = <<~END
+        string = <<~END.gsub(/\n/,'')
         Номер поезда: #{train.number},
          тип поезда: #{train.type},
          количество вагонов: #{train.wagons.size}

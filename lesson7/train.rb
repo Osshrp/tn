@@ -80,8 +80,8 @@ module RailWay
       end
     end
 
-    def each_wagon(&block)
-      @wagons.each { |wagon| block.call(wagon) }
+    def each_wagon
+      @wagons.each { |wagon| yield(wagon) }
     end
 
     def valid?

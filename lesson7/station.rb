@@ -30,8 +30,8 @@ module RailWay
       type ? @trains.select(&:type) : @trains
     end
 
-    def each_train(&block)
-      @trains.each { |train| block.call(train) }
+    def each_train
+      @trains.each { |train| yield(train) }
     end
 
     def valid?

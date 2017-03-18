@@ -16,11 +16,11 @@ module RailWay
     end
 
     def take_a_seat
-      @occupied_seats += 1
+      @occupied_seats += 1 unless free_seats.zero?
     end
 
     def free_seats
-       @seats - @occupied_seats
+      @seats - @occupied_seats
     end
 
     def valid?
@@ -32,7 +32,7 @@ module RailWay
     private
 
     def validate!
-      raise puts "Wagon must have from 40 to 80 seats" if @seats < 40 || @seats > 80
+      raise puts "Wagon must have from 40 to 80 seats" unless @seats.between?(40,80)
       true
     end
   end

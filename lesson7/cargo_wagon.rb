@@ -16,7 +16,7 @@ module RailWay
     end
 
     def take_a_place(volume)
-      @occupied_volume += volume
+      @occupied_volume += volume unless free_volume.zero?
     end
 
     def free_volume
@@ -32,7 +32,7 @@ module RailWay
     private
 
     def validate!
-      raise puts "wagon valume must bo from 60 to 256" if @volume < 60 || @volume > 256
+      raise puts "wagon valume must bo from 60 to 256" unless @volume.between?(60,256)
       true
     end
   end
