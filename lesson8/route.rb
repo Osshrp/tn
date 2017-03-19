@@ -1,6 +1,5 @@
 module RailWay
   class Route
-
     attr_reader :stations
 
     def initialize(first_station, last_station)
@@ -25,9 +24,9 @@ module RailWay
     private
 
     def validate!
-      if @stations.first.class.is_a?(RailWay::Station)
+      if !@stations.first.is_a?(RailWay::Station)
         raise "#{@stations.first} is not an object of class RailWay::Station"
-      elsif @stations.last.class.is_a?(RailWay::Station)
+      elsif !@stations.last.is_a?(RailWay::Station)
         raise "#{@stations.last} is not an object of class RailWay::Station"
       end
       true

@@ -2,7 +2,6 @@ require_relative 'wagon'
 
 module RailWay
   class CargoWagon < Wagon
-
     attr_reader :occupied_volume
 
     def initialize(volume)
@@ -32,7 +31,9 @@ module RailWay
     private
 
     def validate!
-      raise puts "wagon valume must bo from 60 to 256" unless @volume.between?(60,256)
+      unless @volume.between?(60, 256)
+        raise puts 'wagon valume must bo from 60 to 256'
+      end
       true
     end
   end

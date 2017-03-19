@@ -50,13 +50,11 @@ module RailWay
     end
 
     def attach_wagon(wagon)
-      if self.speed.zero? || type == wagon.type
-        @wagons << wagon
-      end
+      @wagons << wagon if speed.zero? || type == wagon.type
     end
 
     def detach_wagon
-      return unless self.speed.zero?
+      return unless speed.zero?
       @wagons.pop
     end
 
@@ -65,7 +63,7 @@ module RailWay
     end
 
     def next_station
-      if @stations_index + 1 == self.route.stations.size
+      if @stations_index + 1 == route.stations.size
         route.stations[@stations_index].name
       else
         route.stations[@stations_index + 1].name
@@ -73,7 +71,7 @@ module RailWay
     end
 
     def previous_station
-      if @stations_index == 0
+      if @stations_index.zero?
         route.stations[@stations_index].name
       else
         route.stations[@stations_index - 1].name
@@ -99,7 +97,7 @@ module RailWay
     end
 
     def validate!
-      raise "Number has invalid format" if number !~ TRAIN_NUMBER_FORMAT
+      raise 'Number has invalid format' if number !~ TRAIN_NUMBER_FORMAT
       true
     end
   end

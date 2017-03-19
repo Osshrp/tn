@@ -2,7 +2,6 @@ require_relative 'wagon'
 
 module RailWay
   class PassengerWagon < Wagon
-
     attr_reader :occupied_seats
 
     def initialize(seats)
@@ -32,7 +31,9 @@ module RailWay
     private
 
     def validate!
-      raise puts "Wagon must have from 40 to 80 seats" unless @seats.between?(40,80)
+      unless @seats.between?(40, 80)
+        raise puts 'Wagon must have from 40 to 80 seats'
+      end
       true
     end
   end
