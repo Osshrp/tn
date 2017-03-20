@@ -1,27 +1,32 @@
 require_relative 'manufacturer'
 require_relative 'instance_counter'
+require_relative 'validation'
 
 module RailWay
   class Train
     include Manufacturer
     include InstanceCounter
+    include Validation
 
     TRAIN_NUMBER_FORMAT = /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/
 
     attr_accessor :speed
     attr_reader :number, :route, :wagons
+    # attr_accessor_with_history :testik, :testik2
+    # strong_attr_accessor num: Integer
+
+    validate :number, :format => "/^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/"
 
     @@trains = {}
 
     def self.find(number)
-      # @@trains.select { |train| train.number == number }.first
       @@trains[number]
     end
 
     def initialize(number)
       @speed = 0
       @number = number
-      validate!
+      # validate!
       @stations_index = 0
       @wagons = []
       @@trains[number] = self
@@ -82,11 +87,11 @@ module RailWay
       @wagons.each { |wagon| yield(wagon) }
     end
 
-    def valid?
-      validate!
-    rescue
-      false
-    end
+    # def valid?
+    #   validate!
+    # rescue
+    #   false
+    # end
 
     # метод arrive_to_station protected так как он должен неследоваться
 
@@ -96,9 +101,9 @@ module RailWay
       route.stations[@stations_index].arrive(self)
     end
 
-    def validate!
-      raise 'Number has invalid format' if number !~ TRAIN_NUMBER_FORMAT
-      true
-    end
+    # def validate!
+    #   raise 'Number has invalid format' if number !~ TRAIN_NUMBER_FORMAT
+    #   true
+    # end
   end
 end
