@@ -6,16 +6,13 @@ module RailWay
   class Train
     include Manufacturer
     include InstanceCounter
-    include Validation
 
-    TRAIN_NUMBER_FORMAT = /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/
+    # TRAIN_NUMBER_FORMAT = /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/
 
     attr_accessor :speed
     attr_reader :number, :route, :wagons
     # attr_accessor_with_history :testik, :testik2
     # strong_attr_accessor num: Integer
-
-    validate :number, :format => "/^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/"
 
     @@trains = {}
 
