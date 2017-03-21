@@ -6,20 +6,25 @@ module RailWay
     end
 
     module ClassMethods
+      attr_reader :validations
+
       def validate(name, attrs)
         @validations ||= {}
-        @validations[name] = attrs
+        @validations[name] ||= []
+        @validations[name] << attrs
       end
     end
 
     module InstanceMethods
       def validate!
-        validations = self.class.instance_variable_get(:@validations)
+        validations = self.class.validations
 
-        validations.each do |var_name, validations_hash|
-          @instance_var = instance_variable_get("@#{var_name}")
-          validations_hash.each do |method, validation|
-            send(method.to_sym, validation)
+        validations.each do |var_name, validations_arr|
+          var_value = instance_variable_get("@#{var_name}")
+          validations_arr.each do |validation_hash|
+            validation_hash.each do |method, validation|
+              send(method.to_sym, var_value, validation)
+            end
           end
         end
       end
@@ -33,18 +38,18 @@ module RailWay
 
       private
 
-      def presence(*)
-        raise 'argument could not be nil or empty' if !@instance_var || @instance_var.empty?
+      def presence(variable, *)
+        raise 'argument could not be nil or empty' if !variable || variable.empty?
       end
 
-      def var_type(klass)
-        unless @instance_var.is_a?(klass)
-          raise "#{@instance_var} is not belong to #{klass} class"
+      def var_type(variable, klass)
+        unless variable.is_a?(klass)
+          raise "#{variable} is not belong to #{klass} class"
         end
       end
 
-      def format(expression)
-        raise "#{@instance_var} does not match format" if @instance_var !~ expression
+      def format(variable, expression)
+        raise "#{variable} does not match format" if variable !~ expression
       end
     end
   end
