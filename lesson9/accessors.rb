@@ -6,13 +6,14 @@ module RailWay
         values = []
         define_method(name.to_sym) { instance_variable_get(var_name) }
 
+        var_hist = "#{var_name}_hist"
         define_method("#{name}=".to_sym) do |value|
           instance_variable_set(var_name, value)
-          instance_variable_set("#{var_name}_hist".to_sym, values << value)
+          instance_variable_set(var_hist.to_sym, values << value)
         end
 
         define_method("#{name}_history".to_sym) do
-          instance_variable_get("#{var_name}_hist".to_sym)
+          instance_variable_get(var_hist.to_sym)
         end
       end
     end

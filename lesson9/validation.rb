@@ -1,35 +1,27 @@
 module RailWay
   module Validation
-
     def self.included(base)
       base.extend ClassMethods
       base.send :include, InstanceMethods
     end
 
     module ClassMethods
-
       def validate(name, attrs)
-        @var_name = name
-        @validations = attrs
+        @validations ||= {}
+        @validations[name] = attrs
       end
-
     end
 
     module InstanceMethods
       def validate!
-
-        name = self.class.instance_variable_get(:@var_name)
         validations = self.class.instance_variable_get(:@validations)
-        @instance_var = instance_variable_get("@#{name}")
 
-        validations.each do |method, validation|
-          if method == :presence
-            presence
-          else
+        validations.each do |var_name, validations_hash|
+          @instance_var = instance_variable_get("@#{var_name}")
+          validations_hash.each do |method, validation|
             send(method.to_sym, validation)
           end
         end
-
       end
 
       def valid?
@@ -41,8 +33,8 @@ module RailWay
 
       private
 
-      def presence
-        raise "argument could not be nil or empty" if !@instance_var || @instance_var.empty?
+      def presence(*)
+        raise 'argument could not be nil or empty' if !@instance_var || @instance_var.empty?
       end
 
       def var_type(klass)

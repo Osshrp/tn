@@ -6,7 +6,7 @@ module RailWay
   class CargoTrain < Train
     include Validation
 
-    validate :number, :format => /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/, :var_type => String
+    validate :number, format: /^[А-Яа-я0-9]{3}-?[А-Яа-я0-9]{2}$/, var_type: String
 
     def type
       :cargo
